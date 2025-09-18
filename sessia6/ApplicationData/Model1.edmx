@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище sessia6Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ed_izm">
+          <Key>
+            <PropertyRef Name="id_ed_izm" />
+          </Key>
+          <Property Name="id_ed_izm" Type="int" Nullable="false" />
+          <Property Name="ed_izm" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="kolvo_materials">
+          <Key>
+            <PropertyRef Name="id_kolvo_mat" />
+          </Key>
+          <Property Name="id_kolvo_mat" Type="int" Nullable="false" />
+          <Property Name="id_product" Type="int" />
+          <Property Name="id_material" Type="int" />
+          <Property Name="kolvo_mat" Type="int" />
+        </EntityType>
+        <EntityType Name="materials">
+          <Key>
+            <PropertyRef Name="id_material" />
+          </Key>
+          <Property Name="id_material" Type="int" Nullable="false" />
+          <Property Name="naim" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_type_material" Type="int" />
+          <Property Name="quantity_v_upakovke" Type="int" />
+          <Property Name="id_ed_izm" Type="int" />
+          <Property Name="quantity_na_sklade" Type="int" />
+          <Property Name="min_ostatok" Type="int" />
+          <Property Name="cost" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id_product" />
+          </Key>
+          <Property Name="id_product" Type="int" Nullable="false" />
+          <Property Name="naimenovanie" Type="nvarchar" MaxLength="50" />
+          <Property Name="articul" Type="nvarchar" MaxLength="50" />
+          <Property Name="min_cost_for_agent" Type="int" />
+          <Property Name="image" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_type_prod" Type="int" />
+          <Property Name="kolvo_people_for_proizv" Type="int" />
+          <Property Name="number_ceh" Type="int" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="int" Nullable="false" />
+          <Property Name="role_name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="type_materials">
+          <Key>
+            <PropertyRef Name="id_type_material" />
+          </Key>
+          <Property Name="id_type_material" Type="int" Nullable="false" />
+          <Property Name="type_material" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="type_products">
+          <Key>
+            <PropertyRef Name="id_type_prod" />
+          </Key>
+          <Property Name="id_type_prod" Type="int" Nullable="false" />
+          <Property Name="type_prod" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_role" Type="int" />
+        </EntityType>
+        <Association Name="FK_kolvo_materials_materials">
+          <End Role="materials" Type="Self.materials" Multiplicity="0..1" />
+          <End Role="kolvo_materials" Type="Self.kolvo_materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materials">
+              <PropertyRef Name="id_material" />
+            </Principal>
+            <Dependent Role="kolvo_materials">
+              <PropertyRef Name="id_material" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kolvo_materials_products">
+          <End Role="products" Type="Self.products" Multiplicity="0..1" />
+          <End Role="kolvo_materials" Type="Self.kolvo_materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id_product" />
+            </Principal>
+            <Dependent Role="kolvo_materials">
+              <PropertyRef Name="id_product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_materials_ed_izm">
+          <End Role="ed_izm" Type="Self.ed_izm" Multiplicity="0..1" />
+          <End Role="materials" Type="Self.materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ed_izm">
+              <PropertyRef Name="id_ed_izm" />
+            </Principal>
+            <Dependent Role="materials">
+              <PropertyRef Name="id_ed_izm" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_materials_type_materials">
+          <End Role="type_materials" Type="Self.type_materials" Multiplicity="0..1" />
+          <End Role="materials" Type="Self.materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="type_materials">
+              <PropertyRef Name="id_type_material" />
+            </Principal>
+            <Dependent Role="materials">
+              <PropertyRef Name="id_type_material" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_products_type_products">
+          <End Role="type_products" Type="Self.type_products" Multiplicity="0..1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="type_products">
+              <PropertyRef Name="id_type_prod" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="id_type_prod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_roles">
+          <End Role="roles" Type="Self.roles" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище sessia6ModelContainer">
+          <EntitySet Name="ed_izm" EntityType="Self.ed_izm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="kolvo_materials" EntityType="Self.kolvo_materials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="materials" EntityType="Self.materials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="type_materials" EntityType="Self.type_materials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="type_products" EntityType="Self.type_products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_kolvo_materials_materials" Association="Self.FK_kolvo_materials_materials">
+            <End Role="materials" EntitySet="materials" />
+            <End Role="kolvo_materials" EntitySet="kolvo_materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kolvo_materials_products" Association="Self.FK_kolvo_materials_products">
+            <End Role="products" EntitySet="products" />
+            <End Role="kolvo_materials" EntitySet="kolvo_materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_materials_ed_izm" Association="Self.FK_materials_ed_izm">
+            <End Role="ed_izm" EntitySet="ed_izm" />
+            <End Role="materials" EntitySet="materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_materials_type_materials" Association="Self.FK_materials_type_materials">
+            <End Role="type_materials" EntitySet="type_materials" />
+            <End Role="materials" EntitySet="materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_products_type_products" Association="Self.FK_products_type_products">
+            <End Role="type_products" EntitySet="type_products" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_roles" Association="Self.FK_users_roles">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="sessia6Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ed_izm">
+          <Key>
+            <PropertyRef Name="id_ed_izm" />
+          </Key>
+          <Property Name="id_ed_izm" Type="Int32" Nullable="false" />
+          <Property Name="ed_izm1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="materials" Relationship="Self.FK_materials_ed_izm" FromRole="ed_izm" ToRole="materials" />
+        </EntityType>
+        <EntityType Name="kolvo_materials">
+          <Key>
+            <PropertyRef Name="id_kolvo_mat" />
+          </Key>
+          <Property Name="id_kolvo_mat" Type="Int32" Nullable="false" />
+          <Property Name="id_product" Type="Int32" />
+          <Property Name="id_material" Type="Int32" />
+          <Property Name="kolvo_mat" Type="Int32" />
+          <NavigationProperty Name="materials" Relationship="Self.FK_kolvo_materials_materials" FromRole="kolvo_materials" ToRole="materials" />
+          <NavigationProperty Name="products" Relationship="Self.FK_kolvo_materials_products" FromRole="kolvo_materials" ToRole="products" />
+        </EntityType>
+        <EntityType Name="materials">
+          <Key>
+            <PropertyRef Name="id_material" />
+          </Key>
+          <Property Name="id_material" Type="Int32" Nullable="false" />
+          <Property Name="naim" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_type_material" Type="Int32" />
+          <Property Name="quantity_v_upakovke" Type="Int32" />
+          <Property Name="id_ed_izm" Type="Int32" />
+          <Property Name="quantity_na_sklade" Type="Int32" />
+          <Property Name="min_ostatok" Type="Int32" />
+          <Property Name="cost" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="ed_izm" Relationship="Self.FK_materials_ed_izm" FromRole="materials" ToRole="ed_izm" />
+          <NavigationProperty Name="kolvo_materials" Relationship="Self.FK_kolvo_materials_materials" FromRole="materials" ToRole="kolvo_materials" />
+          <NavigationProperty Name="type_materials" Relationship="Self.FK_materials_type_materials" FromRole="materials" ToRole="type_materials" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id_product" />
+          </Key>
+          <Property Name="id_product" Type="Int32" Nullable="false" />
+          <Property Name="naimenovanie" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="articul" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="min_cost_for_agent" Type="Int32" />
+          <Property Name="image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_type_prod" Type="Int32" />
+          <Property Name="kolvo_people_for_proizv" Type="Int32" />
+          <Property Name="number_ceh" Type="Int32" />
+          <NavigationProperty Name="kolvo_materials" Relationship="Self.FK_kolvo_materials_products" FromRole="products" ToRole="kolvo_materials" />
+          <NavigationProperty Name="type_products" Relationship="Self.FK_products_type_products" FromRole="products" ToRole="type_products" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="Int32" Nullable="false" />
+          <Property Name="role_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="users" Relationship="Self.FK_users_roles" FromRole="roles" ToRole="users" />
+        </EntityType>
+        <EntityType Name="type_materials">
+          <Key>
+            <PropertyRef Name="id_type_material" />
+          </Key>
+          <Property Name="id_type_material" Type="Int32" Nullable="false" />
+          <Property Name="type_material" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="materials" Relationship="Self.FK_materials_type_materials" FromRole="type_materials" ToRole="materials" />
+        </EntityType>
+        <EntityType Name="type_products">
+          <Key>
+            <PropertyRef Name="id_type_prod" />
+          </Key>
+          <Property Name="id_type_prod" Type="Int32" Nullable="false" />
+          <Property Name="type_prod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="products" Relationship="Self.FK_products_type_products" FromRole="type_products" ToRole="products" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_role" Type="Int32" />
+          <NavigationProperty Name="roles" Relationship="Self.FK_users_roles" FromRole="users" ToRole="roles" />
+        </EntityType>
+        <Association Name="FK_materials_ed_izm">
+          <End Role="ed_izm" Type="Self.ed_izm" Multiplicity="0..1" />
+          <End Role="materials" Type="Self.materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ed_izm">
+              <PropertyRef Name="id_ed_izm" />
+            </Principal>
+            <Dependent Role="materials">
+              <PropertyRef Name="id_ed_izm" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kolvo_materials_materials">
+          <End Role="materials" Type="Self.materials" Multiplicity="0..1" />
+          <End Role="kolvo_materials" Type="Self.kolvo_materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materials">
+              <PropertyRef Name="id_material" />
+            </Principal>
+            <Dependent Role="kolvo_materials">
+              <PropertyRef Name="id_material" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_kolvo_materials_products">
+          <End Role="products" Type="Self.products" Multiplicity="0..1" />
+          <End Role="kolvo_materials" Type="Self.kolvo_materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id_product" />
+            </Principal>
+            <Dependent Role="kolvo_materials">
+              <PropertyRef Name="id_product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_materials_type_materials">
+          <End Role="type_materials" Type="Self.type_materials" Multiplicity="0..1" />
+          <End Role="materials" Type="Self.materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="type_materials">
+              <PropertyRef Name="id_type_material" />
+            </Principal>
+            <Dependent Role="materials">
+              <PropertyRef Name="id_type_material" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_products_type_products">
+          <End Role="type_products" Type="Self.type_products" Multiplicity="0..1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="type_products">
+              <PropertyRef Name="id_type_prod" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="id_type_prod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_roles">
+          <End Role="roles" Type="Self.roles" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="sessia6Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ed_izm" EntityType="Self.ed_izm" />
+          <EntitySet Name="kolvo_materials" EntityType="Self.kolvo_materials" />
+          <EntitySet Name="materials" EntityType="Self.materials" />
+          <EntitySet Name="products" EntityType="Self.products" />
+          <EntitySet Name="roles" EntityType="Self.roles" />
+          <EntitySet Name="type_materials" EntityType="Self.type_materials" />
+          <EntitySet Name="type_products" EntityType="Self.type_products" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <AssociationSet Name="FK_materials_ed_izm" Association="Self.FK_materials_ed_izm">
+            <End Role="ed_izm" EntitySet="ed_izm" />
+            <End Role="materials" EntitySet="materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kolvo_materials_materials" Association="Self.FK_kolvo_materials_materials">
+            <End Role="materials" EntitySet="materials" />
+            <End Role="kolvo_materials" EntitySet="kolvo_materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_kolvo_materials_products" Association="Self.FK_kolvo_materials_products">
+            <End Role="products" EntitySet="products" />
+            <End Role="kolvo_materials" EntitySet="kolvo_materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_materials_type_materials" Association="Self.FK_materials_type_materials">
+            <End Role="type_materials" EntitySet="type_materials" />
+            <End Role="materials" EntitySet="materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_products_type_products" Association="Self.FK_products_type_products">
+            <End Role="type_products" EntitySet="type_products" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_roles" Association="Self.FK_users_roles">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище sessia6ModelContainer" CdmEntityContainer="sessia6Entities">
+          <EntitySetMapping Name="ed_izm">
+            <EntityTypeMapping TypeName="sessia6Model.ed_izm">
+              <MappingFragment StoreEntitySet="ed_izm">
+                <ScalarProperty Name="id_ed_izm" ColumnName="id_ed_izm" />
+                <ScalarProperty Name="ed_izm1" ColumnName="ed_izm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kolvo_materials">
+            <EntityTypeMapping TypeName="sessia6Model.kolvo_materials">
+              <MappingFragment StoreEntitySet="kolvo_materials">
+                <ScalarProperty Name="id_kolvo_mat" ColumnName="id_kolvo_mat" />
+                <ScalarProperty Name="id_product" ColumnName="id_product" />
+                <ScalarProperty Name="id_material" ColumnName="id_material" />
+                <ScalarProperty Name="kolvo_mat" ColumnName="kolvo_mat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="materials">
+            <EntityTypeMapping TypeName="sessia6Model.materials">
+              <MappingFragment StoreEntitySet="materials">
+                <ScalarProperty Name="id_material" ColumnName="id_material" />
+                <ScalarProperty Name="naim" ColumnName="naim" />
+                <ScalarProperty Name="id_type_material" ColumnName="id_type_material" />
+                <ScalarProperty Name="quantity_v_upakovke" ColumnName="quantity_v_upakovke" />
+                <ScalarProperty Name="id_ed_izm" ColumnName="id_ed_izm" />
+                <ScalarProperty Name="quantity_na_sklade" ColumnName="quantity_na_sklade" />
+                <ScalarProperty Name="min_ostatok" ColumnName="min_ostatok" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="sessia6Model.products">
+              <MappingFragment StoreEntitySet="products">
+                <ScalarProperty Name="id_product" ColumnName="id_product" />
+                <ScalarProperty Name="naimenovanie" ColumnName="naimenovanie" />
+                <ScalarProperty Name="articul" ColumnName="articul" />
+                <ScalarProperty Name="min_cost_for_agent" ColumnName="min_cost_for_agent" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="id_type_prod" ColumnName="id_type_prod" />
+                <ScalarProperty Name="kolvo_people_for_proizv" ColumnName="kolvo_people_for_proizv" />
+                <ScalarProperty Name="number_ceh" ColumnName="number_ceh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="sessia6Model.roles">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="type_materials">
+            <EntityTypeMapping TypeName="sessia6Model.type_materials">
+              <MappingFragment StoreEntitySet="type_materials">
+                <ScalarProperty Name="id_type_material" ColumnName="id_type_material" />
+                <ScalarProperty Name="type_material" ColumnName="type_material" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="type_products">
+            <EntityTypeMapping TypeName="sessia6Model.type_products">
+              <MappingFragment StoreEntitySet="type_products">
+                <ScalarProperty Name="id_type_prod" ColumnName="id_type_prod" />
+                <ScalarProperty Name="type_prod" ColumnName="type_prod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="sessia6Model.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
