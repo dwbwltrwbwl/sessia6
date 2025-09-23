@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sessia6.ApplicationData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,12 @@ namespace sessia6.Pages
     /// </summary>
     public partial class DataOutput : Page
     {
+        private List<products> allProducts;
         public DataOutput()
         {
             InitializeComponent();
+            allProducts = AppConnect.model01.products.ToList();
+            listProducts.ItemsSource = allProducts;
         }
     }
 }

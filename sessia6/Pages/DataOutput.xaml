@@ -9,6 +9,51 @@
       Title="DataOutput">
 
     <Grid>
-        
+        <ListView x:Name="listProducts">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="250"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding naimenovanie}" FontWeight="Bold" Grid.Row="0"/>
+                            <TextBlock Text="{Binding image}" Grid.Row="1"/>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock>
+                                    <Run Text="Артикул: "/>
+                                    <Run Text="{Binding articul}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Тип: "/>
+                                    <Run Text="{Binding type_products.type_prod}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Количество человек на производстве: "/>
+                                    <Run Text="{Binding kolvo_people_for_proizv}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Номер цеха: "/>
+                                    <Run Text="{Binding number_ceh}"/>
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock>
+                                    <Run Text="Минимальная стоимость для агента: "/>
+                                    <Run Text="{Binding min_cost_for_agent}"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>    
+        </ListView>    
     </Grid>
 </Page>
