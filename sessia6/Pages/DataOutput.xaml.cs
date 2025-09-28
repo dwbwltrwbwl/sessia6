@@ -28,5 +28,43 @@ namespace sessia6.Pages
             allProducts = AppConnect.model01.products.ToList();
             listProducts.ItemsSource = allProducts;
         }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (listProducts.SelectedItem == null)
+            {
+                MessageBox.Show("Пожалуйста, выберите продукт для удаления", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var confirmResult = MessageBox.Show("Вы уверены что хотите удалить данный продукт?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (confirmResult != MessageBoxResult.Yes)
+            {
+                return;
+            }
+            try
+            {
+                var selectedProduct = (products)listProducts.SelectedItem;
+                int productId = selectedProduct.id_product;
+                var productToDelete = AppConnect.model01.products.FirstOrDefault(p => p.id_product == productId);
+                if (productToDelete != null)
+                {
+                    var relatedSales = AppConnect.model01.kolvo_materials.Where(p => p.id_product == productId).ToList();
+                    if (relatedSales.Any())
+                    {
+                        AppConnect.model01.kolvo_materials.RemoveRange(relatedSales);
+                    }
+                    AppConnect.model01.products.Remove(productToDelete);
+                    AppConnect.model01.SaveChanges();
+                    allProducts.Remove(selectedProduct);
+                    listProducts.ItemsSource = null;
+                    listProducts.ItemsSource = allProducts;
+                    MessageBox.Show("Продукт успешно удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при удалении: " + ex.Message + "Подробности: " + ex.InnerException?.Message, "Ошибка базы данных", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

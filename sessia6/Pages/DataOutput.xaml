@@ -9,7 +9,12 @@
       Title="DataOutput">
 
     <Grid>
-        <ListView x:Name="listProducts">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        
+        <ListView x:Name="listProducts" Grid.Row="0">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
@@ -54,6 +59,13 @@
                     </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>    
-        </ListView>    
+        </ListView>
+
+        <Border Padding="10" Grid.Row="1">
+            <StackPanel>
+                <Button Content="Удалить продукт" Height="30" Width="180" HorizontalAlignment="Right" Click="DeleteButton_Click"/>
+            </StackPanel>
+        </Border>
+        
     </Grid>
 </Page>
